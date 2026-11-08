@@ -1,0 +1,467 @@
+{
+  "created": "2026-11-08T09:42:28+00:00",
+  "versions": {
+    "python": "3.13.7",
+    "numpy": "2.5.2",
+    "pandas": "3.0.5",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.1",
+    "torch": "2.14.0+cpu",
+    "sentence-transformers": "6.2.0"
+  },
+  "device": "cpu",
+  "data_source": "existing files in data/raw/",
+  "cleaning_log": [
+    {
+      "step": "Official CSV files",
+      "training rows": 120000,
+      "test rows": 7600
+    },
+    {
+      "step": "Drop '#NAME?' spreadsheet-error rows",
+      "training rows": 119985,
+      "test rows": 7598
+    },
+    {
+      "step": "Drop training titles with conflicting labels",
+      "training rows": 117261,
+      "test rows": 7598
+    },
+    {
+      "step": "Drop test titles that also occur in training",
+      "training rows": 117261,
+      "test rows": 6363
+    },
+    {
+      "step": "Drop test titles with conflicting labels",
+      "training rows": 117261,
+      "test rows": 6357
+    }
+  ],
+  "duplicates": {
+    "raw lower-cased titles (proposal)": {
+      "training rows that repeat an earlier title": 6361,
+      "distinct training titles that occur more than once": 5207,
+      "titles with more than one label (conflicts)": 652,
+      "training rows carrying a conflicting title": 1523,
+      "test titles that also appear in training": 764
+    },
+    "cleaned titles (used here)": {
+      "training rows that repeat an earlier title": 10827,
+      "distinct training titles that occur more than once": 8666,
+      "titles with more than one label (conflicts)": 1149,
+      "training rows carrying a conflicting title": 2724,
+      "test titles that also appear in training": 1235
+    }
+  },
+  "split_sizes": {
+    "train": 105569,
+    "dev": 11692,
+    "test": 6357
+  },
+  "split_class_counts": {
+    "train": {
+      "World": 26565,
+      "Sports": 26855,
+      "Business": 26072,
+      "Sci/Tech": 26077
+    },
+    "dev": {
+      "World": 2927,
+      "Sports": 2965,
+      "Business": 2907,
+      "Sci/Tech": 2893
+    },
+    "test": {
+      "World": 1639,
+      "Sports": 1735,
+      "Business": 1537,
+      "Sci/Tech": 1446
+    }
+  },
+  "method1": {
+    "ngram_range": [
+      1,
+      2
+    ],
+    "C": 8.0,
+    "dev_macro_f1": 0.8714564080278075,
+    "dev_accuracy": 0.8718782073212453,
+    "features": 100466
+  },
+  "method2": {
+    "encoder": "sentence-transformers/all-MiniLM-L6-v2",
+    "C": 0.003,
+    "dev_macro_f1": 0.8334761086174896,
+    "dev_accuracy": 0.8339035237769415
+  },
+  "selected_model": "TF-IDF + LR",
+  "test": {
+    "TF-IDF + LR": {
+      "accuracy": 0.8648733679408526,
+      "macro_f1": 0.8625141458045721,
+      "F1 World": 0.8733087330873309,
+      "F1 Sports": 0.9120226308345121,
+      "F1 Business": 0.8257896450667535,
+      "F1 Sci/Tech": 0.8389355742296919,
+      "Business -> Sci/Tech": 139,
+      "Sci/Tech -> Business": 125,
+      "Business <-> Sci/Tech total": 264,
+      "confusion_matrix": [
+        [
+          1420,
+          79,
+          98,
+          42
+        ],
+        [
+          49,
+          1612,
+          43,
+          31
+        ],
+        [
+          75,
+          55,
+          1268,
+          139
+        ],
+        [
+          69,
+          54,
+          125,
+          1198
+        ]
+      ]
+    },
+    "MiniLM + LR": {
+      "accuracy": 0.8294793141418908,
+      "macro_f1": 0.8269008132586344,
+      "F1 World": 0.8448540706605223,
+      "F1 Sports": 0.8863441168050387,
+      "F1 Business": 0.7736464448793215,
+      "F1 Sci/Tech": 0.8027586206896552,
+      "Business -> Sci/Tech": 191,
+      "Sci/Tech -> Business": 155,
+      "Business <-> Sci/Tech total": 346,
+      "confusion_matrix": [
+        [
+          1375,
+          89,
+          116,
+          59
+        ],
+        [
+          75,
+          1548,
+          72,
+          40
+        ],
+        [
+          85,
+          75,
+          1186,
+          191
+        ],
+        [
+          81,
+          46,
+          155,
+          1164
+        ]
+      ]
+    }
+  },
+  "mcnemar": {
+    "all test headlines": {
+      "headlines": 6357,
+      "only TF-IDF right": 531,
+      "only MiniLM right": 306,
+      "McNemar p-value": 6.741870050974167e-15
+    },
+    "Business + Sci/Tech headlines": {
+      "headlines": 2983,
+      "only TF-IDF right": 301,
+      "only MiniLM right": 185,
+      "McNemar p-value": 1.6019446570642111e-07
+    }
+  },
+  "bootstrap": {
+    "macro-F1": {
+      "MiniLM - TF-IDF": -3.561333254593768,
+      "95% CI low": -4.449215746614659,
+      "95% CI high": -2.6625895413477267
+    },
+    "F1 Business": {
+      "MiniLM - TF-IDF": -5.214320018743191,
+      "95% CI low": -6.750434551013537,
+      "95% CI high": -3.6924059587120652
+    },
+    "F1 Sci/Tech": {
+      "MiniLM - TF-IDF": -3.6176953540036694,
+      "95% CI low": -5.157033437889369,
+      "95% CI high": -2.0879859891101136
+    },
+    "Business <-> Sci/Tech confusions": {
+      "MiniLM - TF-IDF": 82.0,
+      "95% CI low": 50.0,
+      "95% CI high": 116.0
+    },
+    "accuracy": {
+      "MiniLM - TF-IDF": -3.5394053798961767,
+      "95% CI low": -4.389255938335691,
+      "95% CI high": -2.658486707566454
+    }
+  },
+  "challenge_factors": [
+    {
+      "factor": "Unfamiliar words",
+      "group": "no unseen word",
+      "headlines": 5173,
+      "Business/Sci-Tech headlines": 2397,
+      "TF-IDF + LR accuracy": 0.8789870481345448,
+      "TF-IDF + LR acc. on Business/Sci-Tech": 0.8464747601168127,
+      "MiniLM + LR accuracy": 0.8405180746182099,
+      "MiniLM + LR acc. on Business/Sci-Tech": 0.7989153108051731
+    },
+    {
+      "factor": "Unfamiliar words",
+      "group": "1+ unseen word",
+      "headlines": 1184,
+      "Business/Sci-Tech headlines": 586,
+      "TF-IDF + LR accuracy": 0.8032094594594594,
+      "TF-IDF + LR acc. on Business/Sci-Tech": 0.7457337883959044,
+      "MiniLM + LR accuracy": 0.78125,
+      "MiniLM + LR acc. on Business/Sci-Tech": 0.742320819112628
+    },
+    {
+      "factor": "Headline length",
+      "group": "1-4 words",
+      "headlines": 922,
+      "Business/Sci-Tech headlines": 387,
+      "TF-IDF + LR accuracy": 0.8112798264642083,
+      "TF-IDF + LR acc. on Business/Sci-Tech": 0.7416020671834626,
+      "MiniLM + LR accuracy": 0.7830802603036876,
+      "MiniLM + LR acc. on Business/Sci-Tech": 0.710594315245478
+    },
+    {
+      "factor": "Headline length",
+      "group": "5-6 words",
+      "headlines": 2458,
+      "Business/Sci-Tech headlines": 1190,
+      "TF-IDF + LR accuracy": 0.8596419853539463,
+      "TF-IDF + LR acc. on Business/Sci-Tech": 0.8277310924369747,
+      "MiniLM + LR accuracy": 0.8157038242473555,
+      "MiniLM + LR acc. on Business/Sci-Tech": 0.7815126050420168
+    },
+    {
+      "factor": "Headline length",
+      "group": "7-8 words",
+      "headlines": 1974,
+      "Business/Sci-Tech headlines": 958,
+      "TF-IDF + LR accuracy": 0.8870314083080041,
+      "TF-IDF + LR acc. on Business/Sci-Tech": 0.8580375782881002,
+      "MiniLM + LR accuracy": 0.8480243161094225,
+      "MiniLM + LR acc. on Business/Sci-Tech": 0.8121085594989561
+    },
+    {
+      "factor": "Headline length",
+      "group": "9+ words",
+      "headlines": 1003,
+      "Business/Sci-Tech headlines": 448,
+      "TF-IDF + LR accuracy": 0.8833499501495513,
+      "TF-IDF + LR acc. on Business/Sci-Tech": 0.8303571428571429,
+      "MiniLM + LR accuracy": 0.8693918245264207,
+      "MiniLM + LR acc. on Business/Sci-Tech": 0.8191964285714286
+    }
+  ],
+  "challenge_factor_tests": [
+    {
+      "group": "no unseen word",
+      "headlines": "all topics",
+      "n": 5173,
+      "only TF-IDF right": 409,
+      "only MiniLM right": 210,
+      "McNemar p-value": "9.9e-16"
+    },
+    {
+      "group": "no unseen word",
+      "headlines": "Business + Sci/Tech",
+      "n": 2397,
+      "only TF-IDF right": 237,
+      "only MiniLM right": 123,
+      "McNemar p-value": "1.9e-09"
+    },
+    {
+      "group": "1+ unseen word",
+      "headlines": "all topics",
+      "n": 1184,
+      "only TF-IDF right": 122,
+      "only MiniLM right": 96,
+      "McNemar p-value": "0.09"
+    },
+    {
+      "group": "1+ unseen word",
+      "headlines": "Business + Sci/Tech",
+      "n": 586,
+      "only TF-IDF right": 64,
+      "only MiniLM right": 62,
+      "McNemar p-value": "0.93"
+    }
+  ],
+  "knn_extra": {
+    "k": 10,
+    "dev": [
+      {
+        "k": 1,
+        "accuracy": 0.8659767362299008,
+        "macro_f1": 0.8658421631048402,
+        "Business <-> Sci/Tech total": 534
+      },
+      {
+        "k": 5,
+        "accuracy": 0.8829113924050633,
+        "macro_f1": 0.8826060244593883,
+        "Business <-> Sci/Tech total": 505
+      },
+      {
+        "k": 10,
+        "accuracy": 0.886589120766336,
+        "macro_f1": 0.8862010385296928,
+        "Business <-> Sci/Tech total": 471
+      },
+      {
+        "k": 20,
+        "accuracy": 0.8835956209373931,
+        "macro_f1": 0.883137162456525,
+        "Business <-> Sci/Tech total": 465
+      },
+      {
+        "k": 50,
+        "accuracy": 0.8764967499144715,
+        "macro_f1": 0.8759692329517759,
+        "Business <-> Sci/Tech total": 484
+      }
+    ],
+    "test": {
+      "accuracy": 0.8837501966336322,
+      "macro_f1": 0.8816329593054668,
+      "F1 World": 0.897045101088647,
+      "F1 Sports": 0.9284299858557284,
+      "F1 Business": 0.8396256857050661,
+      "F1 Sci/Tech": 0.8614310645724258,
+      "Business -> Sci/Tech": 126,
+      "Sci/Tech -> Business": 130,
+      "Business <-> Sci/Tech total": 256,
+      "confusion_matrix": [
+        [
+          1442,
+          65,
+          92,
+          40
+        ],
+        [
+          36,
+          1641,
+          39,
+          19
+        ],
+        [
+          51,
+          59,
+          1301,
+          126
+        ],
+        [
+          47,
+          35,
+          130,
+          1234
+        ]
+      ]
+    },
+    "mcnemar_vs_tfidf": {
+      "all test headlines": {
+        "only TF-IDF right": 245,
+        "only kNN right": 365,
+        "McNemar p-value": "1.3e-06"
+      },
+      "Business + Sci/Tech headlines": {
+        "only TF-IDF right": 146,
+        "only kNN right": 215,
+        "McNemar p-value": "0.00033"
+      }
+    },
+    "bootstrap_vs_tfidf": {
+      "macro-F1": {
+        "kNN - TF-IDF": 1.9118813500894727,
+        "95% CI low": 1.156214966814451,
+        "95% CI high": 2.695562686970264
+      },
+      "F1 Business": {
+        "kNN - TF-IDF": 1.3836040638312674,
+        "95% CI low": 0.10703665162847238,
+        "95% CI high": 2.659095768497913
+      },
+      "F1 Sci/Tech": {
+        "kNN - TF-IDF": 2.2495490342733904,
+        "95% CI low": 0.9531348098023782,
+        "95% CI high": 3.619426424980306
+      },
+      "Business <-> Sci/Tech confusions": {
+        "kNN - TF-IDF": -8.0,
+        "95% CI low": -38.0,
+        "95% CI high": 21.0
+      },
+      "accuracy": {
+        "kNN - TF-IDF": 1.8876828692779624,
+        "95% CI low": 1.147947144879656,
+        "95% CI high": 2.6742173981437745
+      }
+    },
+    "closeness": {
+      "very close (cosine >= 0.8)": {
+        "headlines": 1784.0,
+        "TF-IDF + LR": 0.922085201793722,
+        "MiniLM + LR": 0.8912556053811659,
+        "MiniLM + 10-NN": 0.9321748878923767
+      },
+      "less close (cosine < 0.8)": {
+        "headlines": 4573.0,
+        "TF-IDF + LR": 0.8425541220205555,
+        "MiniLM + LR": 0.8053794008309644,
+        "MiniLM + 10-NN": 0.8648589547343101
+      }
+    }
+  },
+  "agreement": {
+    "both right": 4967,
+    "only TF-IDF right": 531,
+    "only MiniLM right": 306,
+    "both wrong": 553
+  },
+  "leak_check_dev": {
+    "tags removed (our model)": {
+      "accuracy": 0.8718782073212453,
+      "macro_f1": 0.8714564080278075,
+      "F1 Business": 0.8434023618004449,
+      "F1 Sci/Tech": 0.8507880910683012,
+      "Business <-> Sci/Tech total": 493.0
+    },
+    "tags kept": {
+      "accuracy": 0.8788060212110845,
+      "macro_f1": 0.8784050190698232,
+      "F1 Business": 0.8551818805765271,
+      "F1 Sci/Tech": 0.8558432470258922,
+      "Business <-> Sci/Tech total": 465.0
+    },
+    "difference": {
+      "accuracy": 0.006927813889839207,
+      "macro_f1": 0.006948611042015607,
+      "F1 Business": 0.011779518776082187,
+      "F1 Sci/Tech": 0.005055155957590984,
+      "Business <-> Sci/Tech total": -28.0
+    }
+  }
+}

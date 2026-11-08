@@ -1,0 +1,13 @@
+# Downloaded data and embedding cache are re-created by the notebook
+data/raw/
+cache/
+
+# Python / Jupyter
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# Office lock files
+~$*

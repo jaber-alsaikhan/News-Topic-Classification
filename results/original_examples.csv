@@ -1,0 +1,7 @@
+member,headline,intended label,TF-IDF + LR,MiniLM + LR,both correct?
+Team leader,Central bank raises interest rates for the third time this year,Business,Business (81%),Business (97%),True
+Team leader,Astronomers detect water vapour on a planet orbiting a nearby star,Sci/Tech,Sci/Tech (97%),Sci/Tech (79%),True
+Member 2,Striker scores twice as underdogs reach the cup final,Sports,Sports (100%),Sports (98%),True
+Member 2,Chip maker's profit triples on demand for AI servers,Business,Sci/Tech (90%),Sci/Tech (88%),False
+Member 3,New phone app translates sign language into text in real time,Sci/Tech,Sci/Tech (92%),Sci/Tech (85%),True
+Member 3,Ceasefire talks resume as aid convoys cross the border,World,World (99%),World (99%),True
