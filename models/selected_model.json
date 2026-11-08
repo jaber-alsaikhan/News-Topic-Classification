@@ -1,8 +1,0 @@
-{
-  "selected_model": "TF-IDF + LR",
-  "rule": "higher development macro-F1",
-  "dev_macro_f1": {
-    "TF-IDF + LR": 0.8714564080278075,
-    "MiniLM + LR": 0.8334761086174896
-  }
-}
