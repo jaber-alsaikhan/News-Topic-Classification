@@ -1,0 +1,5 @@
+data/*.csv
+data/*.npy
+__pycache__/
+.ipynb_checkpoints/
+~$*
