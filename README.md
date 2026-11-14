@@ -24,6 +24,17 @@ The notebook takes one English news headline and predicts World, Sports, Busines
 
 Answer: no, TF-IDF separates Business and Sci/Tech better when only the headline is used.
 
+## How to run
+
+We ran the notebook on Google Colab with a GPU runtime. It also runs in Jupyter, but the embedding step is much slower without a GPU.
+
+1. Open `headline_topic_classifier.ipynb` in Jupyter or Google Colab.
+2. Run all cells from top to bottom (Jupyter: Kernel > Restart & Run All, Colab: Runtime > Run all).
+3. The first cell installs `sentence-transformers` and `kagglehub`, and the data is downloaded from Kaggle automatically.
+4. To test a new headline, use the Try it section (run the Setup and Data cells first).
+
+Package versions we used (Google Colab): numpy 2.4.6, pandas 2.2.3, scikit-learn 1.6.1, torch 2.14.1, sentence-transformers 5.7.0.
+
 ## Files
 
 - `headline_topic_classifier.ipynb`: the notebook (Setup, Data, Method 1, Method 2, Results, Try it, Sources)
