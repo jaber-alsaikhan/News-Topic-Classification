@@ -36,4 +36,4 @@ Answer: no, TF-IDF separates Business and Sci/Tech better when only the headline
 - AG News dataset, Kaggle (amananandrai/ag-news-classification-dataset), Zhang et al. 2015
 - sentence-transformers/all-MiniLM-L6-v2 (Hugging Face)
 - pandas, numpy, scikit-learn, sentence-transformers, PyTorch, matplotlib
-- We used an AI assistant (Claude) to help write parts of the code.
+
