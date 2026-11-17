@@ -1,13 +1,5 @@
 # News Topic Classification from Headlines
 
-NLP Project - Option 3 | Section 1 | Group 2 | Imam Abdulrahman Bin Faisal University
-
-| Role | Name | Student ID |
-|---|---|---|
-| Team leader | Mohammed Saeed Alamodi | 2240009007 |
-| Member 2 | Abdulaziz Mohammed Alkhlawi | 2240006095 |
-| Member 3 | Jaber Saleh Alsaikhan | 2240006539 |
-
 The notebook takes one English news headline and predicts World, Sports, Business or Sci/Tech. We compare TF-IDF + logistic regression with all-MiniLM-L6-v2 sentence embeddings + logistic regression.
 
 **Question:** If only the headline is available, is a pretrained sentence-embedding classifier better than TF-IDF logistic regression at separating Business and Sci/Tech headlines?
